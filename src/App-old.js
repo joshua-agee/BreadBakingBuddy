@@ -38,9 +38,9 @@ function App() {
     <div className="App">
       <ul>
         {(recipes !== [])? recipes.map((item, i)=>{
-          <li>
+          return (<li>
             {item[i].name}
-          </li>
+          </li>)
         }) : ""}
       </ul>
     </div>
