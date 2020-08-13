@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable no-unused-expressions */
+import React, { Component } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      recipes: []
+    }
+    this.fetchRecipes = this.fetchRecipes.bind(this);
+  }
+  fetchRecipes() {
+    const baseURL = "http://localhost:8000/"
+    fetch(baseURL + "recipes/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }).then(
+      (data) => {
+        // console.log(data);
+        return data.json();
+      },
+      (err) => console.log(err)
+    ).then(
+      (parsedData) => {
+        console.log(parsedData.recipes)
+        this.setState({
+          recipes: parsedData.recipes
+        });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  componentDidMount() {
+    this.fetchRecipes();
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>List of recipes</h1>
+        <ul>
+          {this.state.recipes.map((item) => {
+            return (
+              <li>
+                {item.name}
+              </li>
+            )
+          })}
+          </ul>
+     </div>
+    )
+  }
 }
-
-export default App;
