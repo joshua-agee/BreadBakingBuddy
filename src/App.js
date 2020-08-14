@@ -1,17 +1,15 @@
 /* eslint-disable no-unused-expressions */
-import React, { Component } from 'react'
-import Container from 'react-bootstrap/Container'
-export default class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      recipes: []
-    }
-    this.fetchRecipes = this.fetchRecipes.bind(this);
-  }
-  fetchRecipes() {
-    const baseURL = "http://localhost:8000/"
-    fetch(baseURL + "recipes/", {
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import Container from "react-bootstrap/Container"
+
+const baseURL = "http://localhost:8000/"
+function App() {
+  const [recipes, setRecipes] = useState([]);
+
+  function fetchRecipes () {
+    
+    fetch(baseURL+"recipes/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -22,36 +20,38 @@ export default class App extends Component {
         return data.json();
       },
       (err) => console.log(err)
-    ).then(
-      (parsedData) => {
-        console.log(parsedData.recipes)
-        this.setState({
-          recipes: parsedData.recipes
-        });
-      },
-      (err) => {
+    ).then (
+      (parsedData) =>{
+        console.log(parsedData.recipes);
+        setRecipes(parsedData.recipes);
+      }, 
+      (err) =>{
         console.log(err);
       }
     );
   }
-  componentDidMount() {
-    this.fetchRecipes();
-  }
-
-  render() {
-    return (
+  useEffect(() => {
+    fetchRecipes();
+    return () => {
+    }
+  }, [])
+  
+  return (
+    <div className="App">
       <Container>
-        <h1>List of recipes</h1>
-        <ul>
-          {this.state.recipes.map((item) => {
-            return (
-              <li key={item.id}>
-                {item.name}: {item.summary}
-              </li>
+      <h1>Bread Baking Buddy</h1>
+      <ul>
+        {(recipes !== undefined)? recipes.map((item)=>{
+          return (
+            <li key={item.id}>
+              <a href={baseURL+"recipes/"+item.id}>{item.name}: {item.summary}</a>
+            </li>
             )
-          })}
-          </ul>
-     </Container>
-    )
-  }
+        }) : ""}
+      </ul>
+      </Container>
+    </div>
+  );
 }
+
+export default App;
