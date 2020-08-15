@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React, {useState, useEffect} from 'react'
 
-export default class Recipe extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
+
+export default function Recipe() {
+    return (
+        <div>
+            
+        </div>
+    )
 }
