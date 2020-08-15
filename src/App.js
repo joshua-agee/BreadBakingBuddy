@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Container from "react-bootstrap/Container"
+// import dotenv
 
-const baseURL = "http://localhost:8000/"
 function App() {
+  
+  const baseURL = process.env.REACT_APP_API_URL
+  
   const [recipes, setRecipes] = useState([]);
 
   function fetchRecipes () {
