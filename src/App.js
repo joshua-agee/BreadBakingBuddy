@@ -43,6 +43,7 @@ function App() {
     <div className="App">
       <Container>
       <h1>Bread Baking Buddy</h1>
+      <p>{process.env.REACT_APP_API_URL}</p>
       <ul>
         {(recipes !== undefined)? recipes.map((item)=>{
           return (
