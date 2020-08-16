@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Container from "react-bootstrap/Container"
-// import dotenv
+import NewRecipeForm from "./components/NewRecipeForm"
 
 function App() {
   
@@ -43,7 +43,8 @@ function App() {
     <div className="App">
       <Container>
       <h1>Bread Baking Buddy</h1>
-      <p>{process.env.REACT_APP_API_URL}</p>
+      <br></br>
+      <NewRecipeForm />
       <ul>
         {(recipes !== undefined)? recipes.map((item)=>{
           return (
