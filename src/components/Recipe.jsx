@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+// import React, {useState, useEffect} from 'react'
 
 
-export default function Recipe() {
-    return (
-        <div>
+// export default function Recipe() {
+//     return (
+//         <div>
             
-        </div>
-    )
-}
+//         </div>
+//     )
+// }
