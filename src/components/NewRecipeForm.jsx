@@ -55,6 +55,7 @@ function NewRecipeForm() {
         e.preventDefault();
         fetch(baseURL + "recipes/", {
             method:"POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },

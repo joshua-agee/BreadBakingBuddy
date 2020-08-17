@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Container from "react-bootstrap/Container"
 import NewRecipeForm from "./components/NewRecipeForm"
+import axios from "axios"
 
 function App() {
   
@@ -12,26 +13,31 @@ function App() {
   const [user, setUser] = useState({loggedIn: false, username: "", email: "", password: ""});
 
   const fetchRecipes = () => {
-    fetch(baseURL+"recipes/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      },
-    }).then(
-      (data) => {
-        // console.log(data);
-        return data.json();
-      },
-      (err) => console.log(err)
-    ).then (
-      (parsedData) =>{
-        console.log(parsedData.recipes);
-        setRecipes(parsedData.recipes);
-      }, 
-      (err) =>{
-        console.log(err);
-      }
-    );
+    axios.get(baseURL+"recipes/")
+      .then((data) => {
+        console.log(data.data.recipes);
+        setRecipes(data.data.recipes)
+      }).catch(err => console.log(err))
+    // fetch(baseURL+"recipes/", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    // }).then(
+    //   (data) => {
+    //     // console.log(data);
+    //     return data.json();
+    //   },
+    //   (err) => console.log(err)
+    // ).then (
+    //   (parsedData) =>{
+    //     console.log(parsedData.recipes);
+    //     setRecipes(parsedData.recipes);
+    //   }, 
+    //   (err) =>{
+    //     console.log(err);
+    //   }
+    // );
   }
   useEffect(() => {
     fetchRecipes();
