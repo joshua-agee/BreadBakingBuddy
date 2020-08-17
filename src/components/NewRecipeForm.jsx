@@ -51,9 +51,9 @@ function NewRecipeForm() {
 
     //handle submission of new recipe
 
-    const handleSubmit = () =>{
-        // event.preventDefault();
-        fetch(baseURL + "recipes", {
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        fetch(baseURL + "recipes/", {
             method:"POST",
             headers: {
                 "Content-Type": "application/json"
@@ -64,8 +64,7 @@ function NewRecipeForm() {
                 ingredients : ingredients,
                 directions : directions,
                 source : recipe.source,
-                photo : recipe.photo,
-                contributor : 1
+                photo : recipe.photo
             })
         }).then((res)=> res.json())
         .then((resJson)=>{
@@ -168,7 +167,7 @@ function NewRecipeForm() {
                 )
             })}
         </div>
-        <button onClick={() => handleSubmit()}>Submit Recipe</button>
+        <button onClick={handleSubmit}>Submit Recipe</button>
         </div>
     )
 }
