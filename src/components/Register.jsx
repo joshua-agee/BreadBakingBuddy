@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 
-export default function Register() {
+export default function Register(props) {
 
     const [user, setUser] = useState({ loggedIn: false, username: "", email: "", password: "" });
     const baseURL = process.env.REACT_APP_API_URL
@@ -21,7 +21,12 @@ export default function Register() {
             password: user.password
         }).then((res) => {
             console.log(res)
-
+            props.setUser({
+                loggedIn: true,
+                username:res.data.data.username,
+                id: res.data.data.id,
+                email: res.data.data.email
+            })
         }).catch((err) => {
             console.log(err)
         })

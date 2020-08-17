@@ -6,9 +6,15 @@ import NewRecipeForm from "./components/NewRecipeForm"
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Register from "./components/Register"
 import RecipeList from "./components/RecipeList"
+import Login from "./components/Login"
 
 function App() {
-  
+  const [user, setUser] = useState({
+    loggedIn: false,
+    username: "",
+    id: "",
+    email: ""
+  })
   return (
     <Router>
       <div>
@@ -28,12 +34,13 @@ function App() {
             </li>
           </ul>
         </nav>
+        <h1>Bread Baking Buddy</h1>
         <Switch>
           <Route path="/user/login">
-            {/* <Login /> */}
+            <Login user={user} setUser={setUser}/>
           </Route>
           <Route path="/user/register">
-            <Register />
+            <Register user={user} setUser={setUser}/>
           </Route>
           <Route path="/recipes">
             <RecipeList />
