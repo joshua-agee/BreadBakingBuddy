@@ -52,20 +52,29 @@ function App() {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch(baseURL+"user/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: user.username,
-        email: user.email,
-        password: user.password
-      })
-    }).then((res) => res.json())
-    .then((resJson)=>{
-      console.log(resJson);
+    axios.post(baseURL+"user/register", {
+      username: user.username,
+      email: user.email,
+      password: user.password
+    }).then((res)=>{
+      console.log(res)
+    }).catch((err)=>{
+      console.log(err)
     })
+    // fetch(baseURL+"user/register", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     username: user.username,
+    //     email: user.email,
+    //     password: user.password
+    //   })
+    // }).then((res) => res.json())
+    // .then((resJson)=>{
+    //   console.log(resJson);
+    // })
   }
   return (
     <div className="App">

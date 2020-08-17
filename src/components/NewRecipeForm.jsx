@@ -1,6 +1,8 @@
 import React, {useState} from "react"
+import axios from 'axios'
 
 const baseURL = process.env.REACT_APP_API_URL
+axios.defaults.withCredentials = true
 // import Recipe from "./Recipe";
 // code in this section based on example from here : https://www.cluemediator.com/add-or-remove-input-fields-dynamically-with-reactjs
 function NewRecipeForm() {
@@ -53,25 +55,37 @@ function NewRecipeForm() {
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        fetch(baseURL + "recipes/", {
-            method:"POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name : recipe.name,
-                summary : recipe.summary,
-                ingredients : ingredients,
-                directions : directions,
-                source : recipe.source,
-                photo : recipe.photo
-            })
-        }).then((res)=> res.json())
-        .then((resJson)=>{
-            console.log(resJson);
-            // fetchRecipes();
+        axios.post(baseURL+"recipes/",{
+            name : recipe.name,
+            summary : recipe.summary,
+            ingredients : ingredients,
+            directions : directions,
+            source : recipe.source,
+            photo : recipe.photo
+        }).then((res)=>{
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
         })
+        // fetch(baseURL + "recipes/", {
+        //     method:"POST",
+        //     credentials: "include",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         name : recipe.name,
+        //         summary : recipe.summary,
+        //         ingredients : ingredients,
+        //         directions : directions,
+        //         source : recipe.source,
+        //         photo : recipe.photo
+        //     })
+        // }).then((res)=> res.json())
+        // .then((resJson)=>{
+        //     console.log(resJson);
+        //     // fetchRecipes();
+        // })
     }
 
 
