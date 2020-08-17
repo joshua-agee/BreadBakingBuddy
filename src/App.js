@@ -9,9 +9,9 @@ function App() {
   const baseURL = process.env.REACT_APP_API_URL
   
   const [recipes, setRecipes] = useState([]);
+  const [user, setUser] = useState({loggedIn: false, username: "", email: "", password: ""});
 
-  function fetchRecipes () {
-    
+  const fetchRecipes = () => {
     fetch(baseURL+"recipes/", {
       method: "GET",
       headers: {
@@ -38,11 +38,57 @@ function App() {
     return () => {
     }
   }, [])
-  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const newUserInfo = {...user}
+    newUserInfo[name] = value
+    setUser(newUserInfo)
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    fetch(baseURL+"user/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: user.username,
+        email: user.email,
+        password: user.password
+      })
+    }).then((res) => res.json())
+    .then((resJson)=>{
+      console.log(resJson);
+    })
+  }
   return (
     <div className="App">
       <Container>
       <h1>Bread Baking Buddy</h1>
+      <div className="login">
+        <form>
+          <input
+            name="username"
+            placeholder="Username"
+            value={user.username}
+            onChange={(e)=>handleChange(e)}
+            />
+          <input
+            name="email"
+            placeholder="Email"
+            value={user.email}
+            onChange={(e)=>handleChange(e)}
+            />
+          <input
+            name="password"
+            placeholder="password"
+            value={user.password}
+            onChange={(e)=>handleChange(e)}
+            type="password"
+          />
+          <button onClick={handleSubmit}>Sign Up</button>
+        </form>
+      </div>
       <br></br>
       <NewRecipeForm />
       <ul>

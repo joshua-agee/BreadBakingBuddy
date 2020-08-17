@@ -53,7 +53,7 @@ function NewRecipeForm() {
 
     const handleSubmit = () =>{
         // event.preventDefault();
-        fetch(baseURL + "recipes/", {
+        fetch(baseURL + "recipes", {
             method:"POST",
             headers: {
                 "Content-Type": "application/json"
