@@ -7,6 +7,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Register from "./components/Register"
 import RecipeList from "./components/RecipeList"
 import Login from "./components/Login"
+import Home from "./components/Home"
+import Logout from "./components/Logout"
+import Navbar from "react-bootstrap/Navbar"
+import Nav from "react-bootstrap/Nav"
 
 function App() {
   const [user, setUser] = useState({
@@ -16,50 +20,61 @@ function App() {
     email: ""
   })
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/user/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/user/register">Register</Link>
-            </li>
-            <li>
-              <Link to="/recipes">Recipes</Link>
-            </li>
-          </ul>
-        </nav>
-        <h1>Bread Baking Buddy</h1>
-        <Switch>
-          <Route path="/user/login">
-            <Login user={user} setUser={setUser}/>
-          </Route>
-          <Route path="/user/register">
-            <Register user={user} setUser={setUser}/>
-          </Route>
-          <Route path="/recipes">
-            <RecipeList />
-          </Route>
-          <Route path="/">
-            {/* <Home /> */}
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-    // <div className="App">
-    //   <Container>
-    //   <h1>Bread Baking Buddy</h1>
-      
-    //   <br></br>
-    //   <NewRecipeForm />
-      
-    //   </Container>
-    // </div>
+    <Container>
+      <Router>
+        
+          <Navbar bg="light">
+            <Nav className="mr-auto">
+            
+              <Nav.Link>
+                <Link to="/">Home</Link>
+                </Nav.Link>
+              <Nav.Link>
+                <Link to="/recipes">Recipes</Link>
+              </Nav.Link>
+              {user.loggedIn &&<Nav.Link>
+                <Link to="/recipes/new">Enter a new Recipe</Link>
+              </Nav.Link>}
+              <Navbar.Collapse>
+                <Nav className="justify-content-end">
+                  {user.loggedIn && <Nav.Link>
+                    <Link to="/user/logout">Logout</Link>
+                    </Nav.Link>}
+                  {!user.loggedIn && <Nav.Link>
+                    <Link to="/user/login">Login</Link>
+                  </Nav.Link>}
+                  {!user.loggedIn && <Nav.Link>
+                    <Link to="/user/register">Register</Link>
+                  </Nav.Link>}
+                </Nav>
+              </Navbar.Collapse>
+            
+            </Nav>
+          </Navbar>
+          <h1>Bread Baking Buddy</h1>
+          <Switch>
+            <Route path="/user/login">
+              <Login user={user} setUser={setUser}/>
+            </Route>
+            <Route path="/user/logout">
+              <Logout user={user} setUser={setUser} />
+            </Route>
+            <Route path="/user/register">
+              <Register user={user} setUser={setUser}/>
+            </Route>
+            <Route path="/recipes/new">
+              <NewRecipeForm user={user}/>
+            </Route>
+            <Route path="/recipes">
+              <RecipeList />
+            </Route>
+            <Route path="/">
+              <Home user={user} setUser={setUser}/>
+            </Route>
+          </Switch>
+        
+      </Router>
+    </Container>
   )
 }
 
