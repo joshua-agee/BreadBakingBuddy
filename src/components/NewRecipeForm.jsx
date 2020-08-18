@@ -75,7 +75,7 @@ function NewRecipeForm(props) {
 
 
     return(
-        <div>
+        <div className="m-10">
             <h2>New Recipe</h2>
                 <Form.Group controlId="formRecipeName">
                     <Form.Label>Recipe Name</Form.Label>
@@ -147,39 +147,43 @@ function NewRecipeForm(props) {
                 })}
             </Form.Group>
             <Form.Group controlId="inputDirections">
-            <Form.Label>Input Directions</Form.Label>
+            <Form.Label>Directions</Form.Label>
             {directions.map((x, i)=> {
                 return(
                     <div className="box" key={i}>
                         
-                        <div>
+                        <Form.Row>
+                            <Form.Label column sm="1">Step:</Form.Label>
+                            <Col xs="1">
                             <Form.Control
                                 name="step"
                                 placeholder="Step number"
-                                value={x.step}
+                                value={ i + 1 }
                                 onChange={e => handleDirectionsChange(e,i)}
                                 className="mb-2"
-                            />
+                                disabled="true"
+                            /></Col>
+                            <Col>
                             <Form.Control
                                 name="instruction"
                                 placeholder="Instruction"
                                 value={x.instruction}
                                 onChange={e => handleDirectionsChange(e,i)}
                                 className="mb-2"
-                                /> 
-                        </div>
+                                /></Col>
     
                         <div className="btn-box">
-                            {directions.length !== 1 && <Button variant = "danger" className="mr-2"
+                            {directions.length !== 1 && <Button variant = "danger" className="mr-2 mb-2"
                             onClick={() => handleDirectionsRemoveClick(i)}> - </Button>}
-                            {directions.length - 1 === i && <Button variant= "success" className="mr-2" onClick={handleDirectionsAddClick}> + </Button>}
+                            {directions.length - 1 === i && <Button variant= "success" className="mr-2 mb-2" onClick={handleDirectionsAddClick}> + </Button>}
                         </div>
+                            </Form.Row>
                     </div>
                 )
             })}
             </Form.Group>
         
-        <Button variant="primary" onClick={handleSubmit}>Submit Recipe</Button>
+        <Button variant="primary" className="m-10" onClick={handleSubmit}>Submit Recipe</Button>
         </div>
     )
 }
