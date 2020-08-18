@@ -18,7 +18,8 @@ function App() {
     loggedIn: false,
     username: "",
     id: "",
-    email: ""
+    email: "",
+    refresh: false
   })
   const baseURL = process.env.REACT_APP_API_URL
 
@@ -81,11 +82,11 @@ function App() {
           <Route path="/recipes/new">
             {user.email === "" ? 
               <Login user={user} setUser={setUser}/>
-            : <NewRecipeForm user={user} /> }
+            : <NewRecipeForm user={user} setUser={setUser}/> }
           </Route>
           <Route path="/recipes/:id" children={<Recipe />} />
           <Route path="/recipes">
-            <RecipeList recipes={recipes}/>
+            <RecipeList user={user} setUser={setUser} recipes={recipes} fetchRecipes={fetchRecipes}/>
           </Route>
           <Route path="/">
             <Home user={user} setUser={setUser} />

@@ -5,7 +5,12 @@ import { Link } from 'react-router-dom'
 
 export default function RecipeList(props) {
     
-    
+    if (props.user.refresh) {
+        let newUser = {...props.user}
+        newUser["refresh"] = false
+        props.setUser(newUser)
+        props.fetchRecipes()
+    }
     return (
         <div>
             <ListGroup variant="flush">

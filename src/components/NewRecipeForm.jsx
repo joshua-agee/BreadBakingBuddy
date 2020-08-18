@@ -67,6 +67,9 @@ function NewRecipeForm(props) {
             photo : recipe.photo
         }).then((res)=>{
             console.log(res);
+            const newUser = {...props.user}
+            newUser["refresh"] = true
+            props.setUser(newUser)
             history.push("/recipes")
         }).catch((err)=>{
             console.log(err);
