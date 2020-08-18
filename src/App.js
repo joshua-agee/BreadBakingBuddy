@@ -11,6 +11,7 @@ import Login from "./components/Login"
 import Home from "./components/Home"
 import Logout from "./components/Logout"
 import Nav from "react-bootstrap/Nav"
+import Navbar from "react-bootstrap/Navbar"
 import Recipe from "./components/Recipe"
 
 function App() {
@@ -43,7 +44,8 @@ function App() {
   return (
     <Container>
       <Router>
-        <Nav variant="pills" defaultActiveKey="/" className="mr-auto" >
+        <Navbar bg="light" >
+          <Navbar.Brand>Bread Baking Buddy</Navbar.Brand>
           <Nav.Item>
             <Nav.Link>
               <Link to="/">Home</Link>
@@ -66,9 +68,9 @@ function App() {
           {!user.loggedIn && <Nav.Item><Nav.Link>
             <Link to="/user/register">Register</Link>
           </Nav.Link></Nav.Item>}
-        </Nav>
+        </Navbar>
 
-        <h1>Bread Baking Buddy</h1>
+        
         <Switch>
           <Route path="/user/login">
             <Login user={user} setUser={setUser} />
