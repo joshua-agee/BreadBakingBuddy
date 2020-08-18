@@ -1,15 +1,16 @@
 import React, {useState} from "react"
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 const baseURL = process.env.REACT_APP_API_URL
 axios.defaults.withCredentials = true
 // import Recipe from "./Recipe";
 // code in this section based on example from here : https://www.cluemediator.com/add-or-remove-input-fields-dynamically-with-reactjs
-function NewRecipeForm() {
+function NewRecipeForm(props) {
     const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "" }])
     const [recipe, setRecipe] = useState({name: "", summary: "", source: "", photo: ""})
     const [directions, setDirections] = useState([{ step: "1", instruction: ""}])
-
+    let history = useHistory();
     //handle change to non-array fields
     const handleRecipeChange = (e) => {
         const { name, value } = e.target;
@@ -64,6 +65,7 @@ function NewRecipeForm() {
             photo : recipe.photo
         }).then((res)=>{
             console.log(res);
+            history.push("/recipes")
         }).catch((err)=>{
             console.log(err);
         })

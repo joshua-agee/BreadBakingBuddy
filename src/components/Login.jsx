@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Redirect from 'react-router-dom'
+import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
 export default function Login(props) {
 
     const [userForm, setUserForm] = useState({ loggedIn: false, username: "", id:"", email: "", password: "" });
 
     const baseURL = process.env.REACT_APP_API_URL
-
+    const history = useHistory();
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newUserInfo = { ...userForm }
@@ -27,6 +28,7 @@ export default function Login(props) {
                 email: res.data.data.email,
                 username: res.data.data.username
             });
+            history.push("/")
         }).catch((err) => {
             console.log(err)
         })
@@ -34,21 +36,26 @@ export default function Login(props) {
 
     return (
         <div className="login">
-            <form>
-                <input
+            <form onSubmit={handleSubmit}>
+                <FormGroup controlId="email">
+                    <FormLabel>Email</FormLabel>
+                <FormControl
+                    autoFocus
                     name="email"
-                    placeholder="Email"
+                    type="email"
                     value={userForm.email}
                     onChange={(e) => handleChange(e)}
                 />
-                <input
+                <FormLabel>Password</FormLabel>
+                <FormControl
                     name="password"
                     placeholder="password"
                     value={userForm.password}
                     onChange={(e) => handleChange(e)}
                     type="password"
                 />
-                <button onClick={handleSubmit}>Login</button>
+                </FormGroup>
+                <Button type="submit">Login</Button>
             </form>
             {/* {user.loggedIn &&  <Redirect to="/recipes" />} */}
         </div>

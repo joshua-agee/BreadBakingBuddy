@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Container from "react-bootstrap/Container"
 import NewRecipeForm from "./components/NewRecipeForm"
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom'
 import Register from "./components/Register"
 import RecipeList from "./components/RecipeList"
 import Login from "./components/Login"
@@ -19,6 +19,7 @@ function App() {
     id: "",
     email: ""
   })
+  let history = useHistory();
   return (
     <Container>
       <Router>

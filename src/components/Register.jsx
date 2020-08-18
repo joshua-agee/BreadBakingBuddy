@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-
+import {useHistory} from 'react-router-dom'
 
 export default function Register(props) {
 
     const [user, setUser] = useState({ loggedIn: false, username: "", email: "", password: "" });
     const baseURL = process.env.REACT_APP_API_URL
-
+    let history = useHistory()
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newUserInfo = { ...user }
@@ -27,6 +27,7 @@ export default function Register(props) {
                 id: res.data.data.id,
                 email: res.data.data.email
             })
+            history.push("/")
         }).catch((err) => {
             console.log(err)
         })
