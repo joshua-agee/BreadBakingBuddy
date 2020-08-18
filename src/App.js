@@ -79,7 +79,9 @@ function App() {
             <Register user={user} setUser={setUser} />
           </Route>
           <Route path="/recipes/new">
-            <NewRecipeForm user={user} />
+            {user.email === "" ? 
+              <Login user={user} setUser={setUser}/>
+            : <NewRecipeForm user={user} /> }
           </Route>
           <Route path="/recipes/:id" children={<Recipe />} />
           <Route path="/recipes">
