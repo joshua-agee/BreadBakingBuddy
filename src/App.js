@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios'
 import Container from "react-bootstrap/Container"
 import NewRecipeForm from "./components/NewRecipeForm"
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom'
@@ -9,8 +10,8 @@ import RecipeList from "./components/RecipeList"
 import Login from "./components/Login"
 import Home from "./components/Home"
 import Logout from "./components/Logout"
-import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
+import Recipe from "./components/Recipe"
 
 function App() {
   const [user, setUser] = useState({
@@ -19,6 +20,24 @@ function App() {
     id: "",
     email: ""
   })
+  const baseURL = process.env.REACT_APP_API_URL
+
+  const [recipes, setRecipes] = useState([]);
+    
+
+  const fetchRecipes = () => {
+      axios.get(baseURL + "recipes/")
+          .then((data) => {
+              console.log(data.data.recipes);
+              setRecipes(data.data.recipes)
+          }).catch(err => console.log(err))}
+
+  useEffect(() => {
+      fetchRecipes();
+      return () => {
+      }
+      }, [])
+
   let history = useHistory();
   return (
     <Container>
@@ -62,8 +81,9 @@ function App() {
           <Route path="/recipes/new">
             <NewRecipeForm user={user} />
           </Route>
+          <Route path="/recipes/:id" children={<Recipe />} />
           <Route path="/recipes">
-            <RecipeList />
+            <RecipeList recipes={recipes}/>
           </Route>
           <Route path="/">
             <Home user={user} setUser={setUser} />
