@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { ListGroup } from 'react-bootstrap'
 
 export default function RecipeList() {
     const baseURL = process.env.REACT_APP_API_URL
@@ -22,15 +23,17 @@ export default function RecipeList() {
     
     return (
         <div>
-            <ul>
+            <ListGroup variant="flush">
                 {(recipes !== undefined) && recipes.map((item) => {
                     return (
-                        <li key={item.id}>
-                            <a href={baseURL + "recipes/" + item.id}>{item.name}: {item.summary}</a>
-                        </li>
+                        <ListGroup.Item key={item.id}>
+                            <a href={baseURL + "recipes/" + item.id}>{item.name}: {item.summary}</a> 
+                            {item.likes}
+                            {item.comments}
+                        </ListGroup.Item>
                     )
                 })}
-            </ul>
+            </ListGroup>
         </div>
     )
     }

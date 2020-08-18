@@ -1,15 +1,17 @@
 import React, {useState} from "react"
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { Button, Form, Col } from 'react-bootstrap'
 
 const baseURL = process.env.REACT_APP_API_URL
 axios.defaults.withCredentials = true
 // import Recipe from "./Recipe";
 // code in this section based on example from here : https://www.cluemediator.com/add-or-remove-input-fields-dynamically-with-reactjs
 function NewRecipeForm(props) {
+    
     const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "" }])
     const [recipe, setRecipe] = useState({name: "", summary: "", source: "", photo: ""})
-    const [directions, setDirections] = useState([{ step: "1", instruction: ""}])
+    const [directions, setDirections] = useState([{ step: "", instruction: ""}])
     let history = useHistory();
     //handle change to non-array fields
     const handleRecipeChange = (e) => {
@@ -69,122 +71,115 @@ function NewRecipeForm(props) {
         }).catch((err)=>{
             console.log(err);
         })
-        // fetch(baseURL + "recipes/", {
-        //     method:"POST",
-        //     credentials: "include",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         name : recipe.name,
-        //         summary : recipe.summary,
-        //         ingredients : ingredients,
-        //         directions : directions,
-        //         source : recipe.source,
-        //         photo : recipe.photo
-        //     })
-        // }).then((res)=> res.json())
-        // .then((resJson)=>{
-        //     console.log(resJson);
-        //     // fetchRecipes();
-        // })
     }
 
 
     return(
         <div>
             <h2>New Recipe</h2>
-            <div className="box">
-            <input 
-                name="name"
-                placeholder="Recipe Name"
-                value={recipe.name}
-                onChange={e => handleRecipeChange(e)}
-                /><br></br>
-            <textarea 
-                name="summary"
-                placeholder="Summary"
-                value={recipe.summary}
-                onChange={e => handleRecipeChange(e)}
-                /><br></br>
-            <input
-                name="source"
-                placeholder="Enter your source URL(if any)"
-                value={recipe.source}
-                onChange={e => handleRecipeChange(e)}
-                /><br></br>
-            <input
-                name="photo"
-                placeholder="Enter your photo URL(if any)"
-                value={recipe.photo}
-                onChange={e => handleRecipeChange(e)}
-                />
-            <h3>Input Ingredients</h3>
-            {ingredients.map((x, i)=> {
-                return(
-                    <div className="box" key={i}>
-                        <ul>
-                        {ingredients.length > i+1 && 
-                        <li>{x.ingredient}: {x.amount}</li>
-                        } </ul>
-                            {ingredients.length -1 === i ? 
-                        <div>
-                            <input
-                                name="ingredient"
-                                placeholder="Enter ingredient"
-                                value={x.ingredient}
-                                onChange={e => handleIngredientsChange(e,i)}
-                            />
-                            <input
-                                name="amount"
-                                placeholder="Enter amount"
-                                value={x.amount}
-                                onChange={e => handleIngredientsChange(e,i)}
-                                /> 
+                <Form.Group controlId="formRecipeName">
+                    <Form.Label>Recipe Name</Form.Label>
+                    <Form.Control 
+                        name="name"
+                        placeholder="Recipe Name"
+                        value={recipe.name}
+                        onChange={e => handleRecipeChange(e)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formSummary">
+                    <Form.Label>Summary</Form.Label>
+                    <Form.Control 
+                        name="summary"
+                        as="textarea"
+                        rows="4"
+                        value={recipe.summary}
+                        onChange={e => handleRecipeChange(e)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formSource">
+                    <Form.Label>Source</Form.Label>
+                    <Form.Control
+                        name="source"
+                        placeholder="Enter your source URL(if any)"
+                        value={recipe.source}
+                        onChange={e => handleRecipeChange(e)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formPhotoLink">
+                    <Form.Label>Photo Link</Form.Label>
+                    <Form.Control
+                        name="photo"
+                        placeholder="Enter your photo URL(if any)"
+                        value={recipe.photo}
+                        onChange={e => handleRecipeChange(e)}
+                        />
+                    </Form.Group>
+                <Form.Group controlId="inputIngredients">
+                <Form.Label>Ingredients</Form.Label>
+                {ingredients.map((x, i)=> {
+                    return(
+                        <div key={i}>
+                            <Form.Row className="mb-2">
+                                <Col xs="6">
+                                    <Form.Control
+                                    name="ingredient"
+                                    placeholder="Enter ingredient"
+                                    value={x.ingredient}
+                                    onChange={e => handleIngredientsChange(e,i)}
+                                    />
+                                </Col>
+                                <Col xs="4">
+                                    <Form.Control
+                                    name="amount"
+                                    placeholder="Enter amount"
+                                    value={x.amount}
+                                    onChange={e => handleIngredientsChange(e,i)}
+                                    /> 
+                                </Col>
+                                <Col xs="2">
+                                {ingredients.length !== 1 && <Button className="mr-2"  variant="danger"
+                                onClick={() => handleRemoveClick(i)}> - </Button>}
+                                {ingredients.length - 1 === i && <Button className="mr-2"  variant="success" onClick={handleAddClick}> + </Button>}
+                                </Col>
+                            </Form.Row>
                         </div>
-                        : "" } 
-                        <div className="btn-box">
-                            {ingredients.length !== 1 && <button className="mr10"
-                            onClick={() => handleRemoveClick(i)}>Remove Ingredient</button>}
-                            {ingredients.length - 1 === i && <button onClick={handleAddClick}>Add Ingredient</button>}
-                        </div>
-                    </div>
-                )
-            })}
-            <h3>Input Directions</h3>
+                    )
+                })}
+            </Form.Group>
+            <Form.Group controlId="inputDirections">
+            <Form.Label>Input Directions</Form.Label>
             {directions.map((x, i)=> {
                 return(
                     <div className="box" key={i}>
-                        <ul>
-                        {directions.length > i+1 && 
-                        <li>{x.step}: {x.instruction}</li>
-                        } </ul>
-                            {directions.length -1 === i ? 
+                        
                         <div>
-                            <input
+                            <Form.Control
                                 name="step"
-                                placeholder="step"
+                                placeholder="Step number"
                                 value={x.step}
                                 onChange={e => handleDirectionsChange(e,i)}
+                                className="mb-2"
                             />
-                            <input
+                            <Form.Control
                                 name="instruction"
                                 placeholder="Instruction"
                                 value={x.instruction}
                                 onChange={e => handleDirectionsChange(e,i)}
+                                className="mb-2"
                                 /> 
                         </div>
-                        : "" } 
+    
                         <div className="btn-box">
-                            {directions.length !== 1 && <button className="mr10"
-                            onClick={() => handleDirectionsRemoveClick(i)}>Remove Step</button>}
-                            {directions.length - 1 === i && <button onClick={handleDirectionsAddClick}>Add Step</button>}
+                            {directions.length !== 1 && <Button variant = "danger" className="mr-2"
+                            onClick={() => handleDirectionsRemoveClick(i)}> - </Button>}
+                            {directions.length - 1 === i && <Button variant= "success" className="mr-2" onClick={handleDirectionsAddClick}> + </Button>}
                         </div>
                     </div>
                 )
             })}
-        </div>
-        <button onClick={handleSubmit}>Submit Recipe</button>
+            </Form.Group>
+        
+        <Button variant="primary" onClick={handleSubmit}>Submit Recipe</Button>
         </div>
     )
 }
