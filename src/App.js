@@ -84,7 +84,7 @@ function App() {
           <Route path="/recipes/new">
             {user.email === "" ? 
               <Login user={user} setUser={setUser}/>
-            : <NewRecipeForm user={user} setUser={setUser}/> }
+            : <NewRecipeForm user={user} setUser={setUser} fetchRecipes={fetchRecipes}/> }
           </Route>
           <Route path="/recipes/:id" children={<Recipe user={user} setUser={setUser}/>} />
           <Route path="/recipes">

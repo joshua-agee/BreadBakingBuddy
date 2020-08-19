@@ -12,7 +12,7 @@ function NewRecipeForm(props) {
     const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "" }])
     const [recipe, setRecipe] = useState({name: "", summary: "", source: "", photo: ""})
     const [directions, setDirections] = useState([{ step: "", instruction: ""}])
-    let history = useHistory();
+    const history = useHistory();
     //handle change to non-array fields
     const handleRecipeChange = (e) => {
         const { name, value } = e.target;
@@ -67,9 +67,7 @@ function NewRecipeForm(props) {
             photo : recipe.photo
         }).then((res)=>{
             console.log(res);
-            const newUser = {...props.user}
-            newUser["refresh"] = true
-            props.setUser(newUser)
+            props.fetchRecipes();
             history.push("/recipes")
         }).catch((err)=>{
             console.log(err);

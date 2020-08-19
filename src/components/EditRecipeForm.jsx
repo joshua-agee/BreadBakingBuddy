@@ -16,8 +16,8 @@ function EditRecipeForm(props) {
     const [ingredients, setIngredients] = useState(props.ingredients)
     const [recipe, setRecipe] = useState(props.recipe)
     const [directions, setDirections] = useState(props.directions)
-    let history = useHistory();
-    
+    const history = useHistory();
+
     //handle change to non-array fields
     const handleRecipeChange = (e) => {
         const { name, value } = e.target;
