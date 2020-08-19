@@ -17,6 +17,7 @@ function EditRecipeForm(props) {
     const [recipe, setRecipe] = useState(props.recipe)
     const [directions, setDirections] = useState(props.directions)
     let history = useHistory();
+    
     //handle change to non-array fields
     const handleRecipeChange = (e) => {
         const { name, value } = e.target;
@@ -210,7 +211,7 @@ function EditRecipeForm(props) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" className="m-10" onClick={handleSubmit}>Update Recipe</Button>
-                <Button variant="danger" className="m-10" onCLick={handleDelete}>Delete Recipe</Button>
+                <Button variant="danger" className="m-10" onClick={handleDelete}>Delete Recipe</Button>
             </Modal.Footer>
         </Modal>
     )
