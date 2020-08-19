@@ -56,7 +56,7 @@ export default function Recipe(props) {
                     </ol>
             </>
             }
-            {props.user.email !=="" &&
+            {props.user.loggedIn &&
             <Button onClick={editRecipe}>Edit Recipe</Button>
             }
             <hr />
