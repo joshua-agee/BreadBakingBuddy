@@ -16,13 +16,10 @@ export default function Recipe() {
             .then((data) => {
                 console.log(data.data);
                 setCurrentRecipe(data.data)
-                console.log(currentRecipe)
             }).catch(err => console.log(err))}
   
     useEffect(() => {
         fetchRecipe();
-        return () => {
-        }
         }, [])
     return (
         <div>

@@ -86,7 +86,7 @@ function App() {
               <Login user={user} setUser={setUser}/>
             : <NewRecipeForm user={user} setUser={setUser}/> }
           </Route>
-          <Route path="/recipes/:id" children={<Recipe />} />
+          <Route path="/recipes/:id" children={<Recipe user={user} setUser={setUser}/>} />
           <Route path="/recipes">
             <RecipeList user={user} setUser={setUser} recipes={recipes} fetchRecipes={fetchRecipes}/>
           </Route>

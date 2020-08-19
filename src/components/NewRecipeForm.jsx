@@ -140,9 +140,9 @@ function NewRecipeForm(props) {
                                     /> 
                                 </Col>
                                 <Col xs="2">
-                                {ingredients.length !== 1 && <Button className="mr-2"  variant="danger"
+                                {ingredients.length !== 1 && <Button className="mr-2"  
                                 onClick={() => handleRemoveClick(i)}> - </Button>}
-                                {ingredients.length - 1 === i && <Button className="mr-2"  variant="success" onClick={handleAddClick}> + </Button>}
+                                {ingredients.length - 1 === i && <Button className="mr-2"   onClick={handleAddClick}> + </Button>}
                                 </Col>
                             </Form.Row>
                         </div>
@@ -170,15 +170,17 @@ function NewRecipeForm(props) {
                             <Form.Control
                                 name="instruction"
                                 placeholder="Instruction"
+                                as="textarea"
+                                rows="2"
                                 value={x.instruction}
                                 onChange={e => handleDirectionsChange(e,i)}
                                 className="mb-2"
                                 /></Col>
     
                         <div className="btn-box">
-                            {directions.length !== 1 && <Button variant = "danger" className="mr-2 mb-2"
+                            {directions.length !== 1 && <Button  className="mr-2 mb-2"
                             onClick={() => handleDirectionsRemoveClick(i)}> - </Button>}
-                            {directions.length - 1 === i && <Button variant= "success" className="mr-2 mb-2" onClick={handleDirectionsAddClick}> + </Button>}
+                            {directions.length - 1 === i && <Button  className="mr-2 mb-2" onClick={handleDirectionsAddClick}> + </Button>}
                         </div>
                             </Form.Row>
                     </div>
