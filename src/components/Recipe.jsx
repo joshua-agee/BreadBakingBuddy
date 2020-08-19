@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import  { useParams } from "react-router-dom"
 import axios from 'axios'
-
-export default function Recipe() {
+import EditRecipeForm from "./EditRecipeForm"
+import { render } from '@testing-library/react';
+import Button from 'react-bootstrap/Button'
+export default function Recipe(props) {
     let {id} = useParams();
     const baseURL = process.env.REACT_APP_API_URL
 
@@ -21,6 +23,17 @@ export default function Recipe() {
     useEffect(() => {
         fetchRecipe();
         }, [])
+
+    const editRecipe = () => {
+        const recipeHead = {
+            id: currentRecipe.data.id,
+            name: currentRecipe.data.name,
+            source: currentRecipe.data.source,
+            contributor: currentRecipe.data.contributor,
+            summary: currentRecipe.data.summary
+        }
+        render(<EditRecipeForm recipe={recipeHead} ingredients={currentRecipe.data.ingredients} directions={currentRecipe.data.directions} fetchRecipe={fetchRecipe}/>)
+    }
     return (
         <div>
             <br></br>
@@ -42,6 +55,9 @@ export default function Recipe() {
                         <li key={i}>{instruction["instruction"]}</li>)}
                     </ol>
             </>
+            }
+            {props.user.email !=="" &&
+            <Button onClick={editRecipe}>Edit Recipe</Button>
             }
             <hr />
             <h5>Comments:</h5>
