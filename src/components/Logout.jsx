@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 
 export default function Logout(props) {
     const baseURL = process.env.REACT_APP_API_URL
@@ -17,7 +18,7 @@ export default function Logout(props) {
     }
     return (
         <div>
-            <button onClick={handleLogout}>Logout</button>
+            <Button variant="danger" onClick={handleLogout}>Logout</Button>
         </div>
     )
 }
