@@ -17,7 +17,7 @@ export default function RecipeList(props) {
                 {(props.recipes !== undefined) && props.recipes.map((item) => {
                     return (
                         <ListGroup.Item key={item.id}>
-                            <Link to={"/recipes/" + item.id}>{item.name}: {item.summary}</Link> 
+                            <Link to={"/recipes/" + item.id}>{item.name}: {item.summary.slice(0,100)}...</Link> 
                         </ListGroup.Item>
                     )
                 })}
