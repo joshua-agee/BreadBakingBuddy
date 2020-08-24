@@ -58,8 +58,14 @@ export default function Recipe(props) {
                     </ol>
             </>
             }
+            {/* {props.user.username == currentRecipe.data.contributor.username && 
+                <Button onClick={editRecipe}>Edit Recipe</Button>
+            } */}
             {props.user.loggedIn &&
-            <Button onClick={editRecipe}>Edit Recipe</Button>
+            <>
+                <Button>Like</Button>
+                <Button>Add Comment</Button>
+            </>
             }
             <hr />
             <h5>Comments:</h5>
