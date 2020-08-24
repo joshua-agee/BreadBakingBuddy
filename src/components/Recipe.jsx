@@ -4,6 +4,9 @@ import axios from 'axios'
 import EditRecipeForm from "./EditRecipeForm"
 import { render } from '@testing-library/react';
 import Button from 'react-bootstrap/Button'
+import Comments from './Comments'
+
+
 export default function Recipe(props) {
     let {id} = useParams();
     const baseURL = process.env.REACT_APP_API_URL
@@ -11,15 +14,14 @@ export default function Recipe(props) {
     const [currentRecipe, setCurrentRecipe] = useState({
         data: ""
     });
-      
-  
+
     const fetchRecipe = () => {
         axios.get(baseURL + "recipes/"+id)
             .then((data) => {
                 console.log(data.data);
                 setCurrentRecipe(data.data)
             }).catch(err => console.log(err))}
-  
+
     useEffect(() => {
         fetchRecipe();
         }, [])
@@ -61,7 +63,7 @@ export default function Recipe(props) {
             }
             <hr />
             <h5>Comments:</h5>
-
+                <Comments id={id}/>
         </div>
     )
 }
