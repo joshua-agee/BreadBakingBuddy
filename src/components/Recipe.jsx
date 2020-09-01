@@ -34,12 +34,14 @@ export default function Recipe(props) {
     const [currentRecipe, setCurrentRecipe] = useState({
         data: ""
     });
-
+    const [likes, setLikes] = useState("")
     const fetchRecipe = () => {
         axios.get(baseURL + "recipes/"+id)
             .then((data) => {
                 console.log(data.data);
+                console.log(data.data.likes)
                 setCurrentRecipe(data.data)
+                setLikes(data.data.likes)
             }).catch(err => console.log(err))}
 
     useEffect(() => {
@@ -75,9 +77,18 @@ export default function Recipe(props) {
         }).catch((err) =>{
             console.log(err);
         })
-
     }
     
+    const handleLike = () => {
+        axios.post(baseURL + "recipes/" + id + "/like")
+            .then((res) =>{
+                console.log(res)
+            }).catch((err)=>{
+                console.log(err);
+            })
+            fetchRecipe()
+    }
+
     return (
         <div>
             <br></br>
@@ -86,6 +97,7 @@ export default function Recipe(props) {
                 <h1>{currentRecipe.data.name}</h1>
                 <h3>Source: {currentRecipe.data.source}</h3>
                 <h5>Contributor: {currentRecipe.data.contributor.username}</h5>
+                <h5>Likes: {likes} </h5>
                 <hr />
                 <p>{currentRecipe.data.summary}</p>
                 <h4>Ingredients:</h4>
@@ -147,25 +159,25 @@ export default function Recipe(props) {
                 {props.user.username == currentRecipe.data.contributor.username && 
                     <Button onClick={editRecipe} className="mr-2">Edit Recipe</Button>
                 }
-                <Button className="mr-2">Like</Button>
+                <Button className="mr-2" onClick={handleLike}>Like</Button>
                 <Button onClick={() => setShow(true)}>Add Comment</Button>
             </>
             }
             <hr />
             <h5>Comments:</h5>
                 <div>
-                {comments !== "" &&
-                <>
-                    {comments.map((item) =>
+                    {comments !== "" &&
                         <>
-                            <h3>{item.title}</h3>
-                            <h5>{item.by_user.username}</h5>
-                            <p>{item.comment}</p>
+                            {comments.map((item) =>
+                                <>
+                                    <h3>{item.title}</h3>
+                                    <h5>{item.by_user.username}</h5>
+                                    <p>{item.comment}</p>
+                                </>
+                            )}
                         </>
-                    )}
-                </>
-                }
-        </div>
+                    }
+                </div>
         </div>
     )
 }
