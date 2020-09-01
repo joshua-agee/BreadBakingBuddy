@@ -3,7 +3,6 @@ import  { useParams } from "react-router-dom"
 import axios from 'axios'
 import EditRecipeForm from "./EditRecipeForm"
 import { render } from '@testing-library/react';
-import Comments from './Comments'
 import {Modal, Form, Button} from 'react-bootstrap'
 
 export default function Recipe(props) {
@@ -13,7 +12,15 @@ export default function Recipe(props) {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    
+
+    const [comments, setComments] = useState([])
+    const fetchComments = (id) => {
+        axios.get(baseURL + "comment/recipe/"+id)
+            .then((data) => {
+                console.log(data.data.data)
+                setComments(data.data.data)
+            }).catch((err)=> console.log(err))
+    }
     const [newComment, setNewComment] = useState({
         title: "",
         comment: ""
@@ -36,7 +43,8 @@ export default function Recipe(props) {
             }).catch(err => console.log(err))}
 
     useEffect(() => {
-        fetchRecipe();
+        fetchRecipe()
+        fetchComments(id)
         }, [])
 
     const editRecipe = () => {
@@ -49,6 +57,27 @@ export default function Recipe(props) {
         }
         render(<EditRecipeForm recipe={recipeHead} ingredients={currentRecipe.data.ingredients} directions={currentRecipe.data.directions} fetchRecipe={fetchRecipe}/>)
     }
+
+    const handleSubmitComment = ()=> {
+        axios.post(baseURL + "comment/" ,{
+            on_recipe : currentRecipe.data.id,
+            title : newComment.title,
+            comment : newComment.comment,
+            photo : ""
+        }).then((res)=>{
+            console.log(res);
+            setShow(false);
+            setNewComment({
+                title: "",
+                comment: ""
+            })
+            fetchComments(id)
+        }).catch((err) =>{
+            console.log(err);
+        })
+
+    }
+    
     return (
         <div>
             <br></br>
@@ -107,7 +136,7 @@ export default function Recipe(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                 </Button>
-                    <Button variant="primary" type="submit">Submit</Button>
+                    <Button variant="primary" type="submit" onClick={handleSubmitComment}>Submit</Button>
                 </Modal.Footer>
             </Modal> 
             </>
@@ -124,7 +153,19 @@ export default function Recipe(props) {
             }
             <hr />
             <h5>Comments:</h5>
-                <Comments id={id}/>
+                <div>
+                {comments !== "" &&
+                <>
+                    {comments.map((item) =>
+                        <>
+                            <h3>{item.title}</h3>
+                            <h5>{item.by_user.username}</h5>
+                            <p>{item.comment}</p>
+                        </>
+                    )}
+                </>
+                }
+        </div>
         </div>
     )
 }
