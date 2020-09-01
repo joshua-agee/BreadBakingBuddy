@@ -3,14 +3,27 @@ import  { useParams } from "react-router-dom"
 import axios from 'axios'
 import EditRecipeForm from "./EditRecipeForm"
 import { render } from '@testing-library/react';
-import Button from 'react-bootstrap/Button'
 import Comments from './Comments'
-
+import {Modal, Form, Button} from 'react-bootstrap'
 
 export default function Recipe(props) {
     let {id} = useParams();
     const baseURL = process.env.REACT_APP_API_URL
 
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    
+    const [newComment, setNewComment] = useState({
+        title: "",
+        comment: ""
+    })
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        const updatedComment = {...newComment}
+        updatedComment[name] = value
+        setNewComment(updatedComment)
+    }
     const [currentRecipe, setCurrentRecipe] = useState({
         data: ""
     });
@@ -56,15 +69,57 @@ export default function Recipe(props) {
                         {currentRecipe.data.directions.map((instruction, i)=>
                         <li key={i}>{instruction["instruction"]}</li>)}
                     </ol>
+                <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Comment</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId="formAddCommentTitle">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Comment Title" 
+                                value={newComment.title}
+                                name="title"
+                                onChange={ e => handleChange(e)}
+                                />
+                        </Form.Group>
+                        <Form.Group controlId="formAddComment">
+                            <Form.Label>Comment</Form.Label>
+                            <Form.Control 
+                                as="textarea" 
+                                placeholder="Comment..." 
+                                rows="3" 
+                                value={newComment.comment}
+                                name="comment"
+                                onChange={ e => handleChange(e)}
+                                />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                </Button>
+                    <Button variant="primary" type="submit">Submit</Button>
+                </Modal.Footer>
+            </Modal> 
             </>
             }
-            {/* {props.user.username == currentRecipe.data.contributor.username && 
-                <Button onClick={editRecipe}>Edit Recipe</Button>
-            } */}
-            {props.user.loggedIn &&
+            
+            {currentRecipe.data !== "" && props.user.loggedIn &&
             <>
-                <Button>Like</Button>
-                <Button>Add Comment</Button>
+                {props.user.username == currentRecipe.data.contributor.username && 
+                    <Button onClick={editRecipe} className="mr-2">Edit Recipe</Button>
+                }
+                <Button className="mr-2">Like</Button>
+                <Button onClick={() => setShow(true)}>Add Comment</Button>
             </>
             }
             <hr />
